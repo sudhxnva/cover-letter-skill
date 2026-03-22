@@ -58,6 +58,55 @@ def get_experience(id: str) -> dict | None:
     return {"id": result["ids"][0], "refined": result["documents"][0], **result["metadatas"][0]}
 
 
+# Similarity threshold for duplicate detection.
+# Entries with similarity > this value are considered duplicates.
+# Uses the same distance-to-similarity conversion as query.py: similarity = 1 - dist.
+DUPLICATE_SIMILARITY_THRESHOLD = 0.90
+
+
+def check_duplicate(entry: dict) -> dict | None:
+    """
+    Check whether a semantically similar experience already exists in the store.
+
+    Queries ChromaDB using the candidate entry's `refined` text and returns the
+    closest existing entry if its similarity exceeds DUPLICATE_SIMILARITY_THRESHOLD.
+
+    Args:
+        entry: The candidate experience dict (must have a "refined" key).
+
+    Returns:
+        The existing entry as a dict (same format as `get_experience`) if a
+        duplicate is found, otherwise None.
+    """
+    col = _get_collection()
+    # Guard: if the collection is empty, col.query will error on n_results > count.
+    count = col.count()
+    if count == 0:
+        return None
+
+    results = col.query(
+        query_texts=[entry["refined"]],
+        n_results=1,
+        include=["documents", "metadatas", "distances"],
+    )
+
+    ids = results["ids"][0]
+    if not ids:
+        return None
+
+    dist = results["distances"][0][0]
+    similarity = 1 - dist
+
+    if similarity > DUPLICATE_SIMILARITY_THRESHOLD:
+        return {
+            "id": ids[0],
+            "refined": results["documents"][0][0],
+            **results["metadatas"][0][0],
+        }
+
+    return None
+
+
 def list_experiences() -> list[dict]:
     """Return all experiences as a list of dicts."""
     col = _get_collection()
