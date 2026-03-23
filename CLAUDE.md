@@ -8,6 +8,27 @@ Only `seed/experiences.json` and `PLAN.md` exist. The `worker/` and `frontend/` 
 
 ---
 
+## GitHub Issues
+
+Repo: https://github.com/sudhxnva/cover-letter-skill
+
+### Phase A — Backend
+- [#14](https://github.com/sudhxnva/cover-letter-skill/issues/14) Project scaffolding — worker/ and frontend/ directory structure
+- [#15](https://github.com/sudhxnva/cover-letter-skill/issues/15) D1 schema + seed 6 experiences
+- [#16](https://github.com/sudhxnva/cover-letter-skill/issues/16) Vectorize index creation + embed all 6 experiences via Workers AI
+- [#17](https://github.com/sudhxnva/cover-letter-skill/issues/17) Retrieval + scoring logic (`experience.ts`, `scoring.ts`)
+- [#18](https://github.com/sudhxnva/cover-letter-skill/issues/18) Agent flow — URL fetch → JD extraction → retrieval → setState (`agent.ts`)
+- [#19](https://github.com/sudhxnva/cover-letter-skill/issues/19) Worker routes + WebSocket entrypoint (`index.ts`)
+
+### Phase B — Frontend
+- [#20](https://github.com/sudhxnva/cover-letter-skill/issues/20) React app skeleton — two-panel layout, Vite config, Pages setup
+- [#21](https://github.com/sudhxnva/cover-letter-skill/issues/21) GraphCanvas with hardcoded mock nodes (React Flow visual)
+- [#22](https://github.com/sudhxnva/cover-letter-skill/issues/22) Wire GraphCanvas to agent WebSocket — nodes appear live
+- [#23](https://github.com/sudhxnva/cover-letter-skill/issues/23) Cover letter panel — streaming text from agent state
+- [#24](https://github.com/sudhxnva/cover-letter-skill/issues/24) Experience node expand — read-only view of all D1 fields on click
+
+---
+
 ## Development Commands
 
 ### Wrangler (Worker)
